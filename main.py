@@ -281,10 +281,10 @@ def show_aerial_page():
 
         with st.container(height=270):
             m = folium.Map(
-                location=[23.828725716729313, 90.44034752339583], zoom_start=13
+                location=[22.4905296250758, 89.59160985318405], zoom_start=13
             )
             folium.Marker(
-                [23.828725716729313, 90.44034752339583], popup="Mongla Aerial 1"
+                [22.4905296250758, 89.59160985318405], popup="Mongla Aerial 1"
             ).add_to(m)
             # folium.Marker(
             #     [23.836842165760064, 90.47714944282039], popup="Toll Plaza B"
