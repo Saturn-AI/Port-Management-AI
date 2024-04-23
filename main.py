@@ -8,15 +8,14 @@ import time
 import random
 
 def cook_breakfast():
-    msg = st.toast("Gathering informations...")
+    msg = st.toast("Connecting...")
     time.sleep(1)
-    msg.toast("Fetching...")
+    msg.toast("Fetching video...")
     time.sleep(1)
     msg.toast("Ready!", icon="🎉")
 
 def main():
     # Title of the app
-    # st.title("Port Management Video Feed")
     st.set_page_config(
         page_title="Port Management Video Feed",
         layout="wide",
@@ -48,6 +47,7 @@ def main():
                 "button_face": "🌞",
             },
         }
+
 
     def ChangeTheme():
         previous_theme = ms.themes["current_theme"]
@@ -95,7 +95,12 @@ def main():
 def show_aerial_page():
     MAPPER = {
         "Aerial View": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
-        "Jetty 8 View": {"video": "https://www.youtube.com/embed/aTJVDGKHAHU"},
+        "Jetty 8 View": {"video": "https://www.youtube.com/embed/iXklAkaUJSk"},
+        "Jetty 7 View": {"video": "https://www.youtube.com/embed/Ngrz8Jt_jQA"},
+        "Jetty 6 View": {"video": "https://www.youtube.com/embed/1Z-Fnu2k9T0"},
+        "WareHouse 1": {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
+        "WareHouse 2": {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
+        
     }
     
     col1, col2 = st.columns([2, 1])
@@ -159,12 +164,11 @@ def show_aerial_page():
             ).add_to(m)
             st_data = st_folium(m, width=400, height=500)
             
-            
-            if st_data["last_object_clicked_popup"]:
-                st.session_state["VIDEO_URL"] = MAPPER[
-                    st_data["last_object_clicked_popup"]
-                ]["video"]
-                cook_breakfast()
+        if st_data["last_object_clicked_tooltip"]:   
+            st.session_state["VIDEO_URL"] = MAPPER[
+                st_data["last_object_clicked_tooltip"]
+            ]["video"]
+            cook_breakfast()
 
 if __name__ == "__main__":
     main()
