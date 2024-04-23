@@ -14,68 +14,6 @@ def cook_breakfast():
     time.sleep(1)
     msg.toast("Ready!", icon="🎉")
 
-
-def generate_number_plate():
-    # Define the format of the number plate
-    letters = [chr(i) for i in range(65, 91)]  # A-Z
-    digits = [str(i) for i in range(10)]  # 0-9
-
-    # Generate the number plate
-    number_plate = ""
-    for _ in range(3):
-        number_plate += random.choice(letters)
-    number_plate += "-"
-    for _ in range(4):
-        number_plate += random.choice(digits)
-
-    return number_plate
-
-
-def yield_data():
-    sample = ["PAID", "UNPAID"]
-    i = 1
-    for l in list(range(0, 500, 1)):
-        yield pd.DataFrame(
-            {
-                "Number Plate": [generate_number_plate()],
-                "Payment Status": [random.choice(sample)],
-            },
-            index=[f"{i}"],
-        )
-        i += 1
-        time.sleep(3)
-
-
-# def simulate_vehicles():
-#     bus, truck, car = 0, 0, 0
-#     bus2, truck2, car2 = 0, 0, 0
-#     congestion = [False, True]
-#     for _ in list(range(0, 500, 1)):
-#         yield pd.DataFrame(
-#             {
-#                 "Incoming": {
-#                     "Bus": bus,
-#                     "Truck": truck,
-#                     "Car": car,
-#                     "Congestion": random.choice(congestion),
-#                 },
-#                 "Outgoing": {
-#                     "Bus": bus2,
-#                     "Truck": truck2,
-#                     "Car": car2,
-#                     "Congestion": random.choice(congestion),
-#                 },
-#             }
-#         )
-#         bus += random.choice([0, 1, 2])
-#         truck += random.choice([0, 1, 2])
-#         car += random.choice([1, 2, 3])
-#         bus2 += random.choice([0, 1, 2])
-#         truck2 += random.choice([0, 1, 2])
-#         car2 += random.choice([1, 2, 3])
-#         time.sleep(2)
-
-
 def main():
     # Title of the app
     # st.title("Port Management Video Feed")
@@ -153,13 +91,13 @@ def main():
     elif menu_choice == "Zone":
         show_aerial_page()
 
+
 def show_aerial_page():
     MAPPER = {
-        "Mongla Aerial ": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
+        "Aerial View": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
+        "Jetty 8 View": {"video": "https://www.youtube.com/embed/aTJVDGKHAHU"},
     }
-    # st_player("https://www.youtube.com/embed/70_7sgajbZg")
     
-
     col1, col2 = st.columns([2, 1])
 
     with col1:
@@ -195,23 +133,8 @@ def show_aerial_page():
                 )
             else:
                 st.session_state["VIDEO_URL"] = list(MAPPER.values())[0]["video"]
-        
-
-        # with st.container(height=270):
-        #     m = folium.Map(
-        #         location=[22.4905296250758, 89.59160985318405], zoom_start=16
-        #     )
-        #     folium.Marker(
-        #         [22.4905296250758, 89.59160985318405], popup="Mongla Aerial 1"
-        #     ).add_to(m)
-        #     # folium.Marker(
-        #     #     [23.836842165760064, 90.47714944282039], popup="Toll Plaza B"
-        #     # ).add_to(m)
-
-        #     st_data = st_folium(m, width=1050, height=240)
-            
-            
     with col2:
+        # All The Markers On map
         with st.container(height=550):
             m = folium.Map(
                 location=[22.4904881836411, 89.59180332769601], zoom_start=16.5
@@ -235,97 +158,13 @@ def show_aerial_page():
                 [22.489058669926866, 89.59297001926369], popup="WareHouse 2", tooltip="WareHouse 2"
             ).add_to(m)
             st_data = st_folium(m, width=400, height=500)
-
-    # with col2:
-    #     with st.container(height=735):
-    #         if st_data["last_object_clicked_popup"]:
-    #             st.session_state["VIDEO_URL"] = MAPPER[
-    #                 st_data["last_object_clicked_popup"]
-    #             ]["video"]
-    #             cook_breakfast()
-    #             message = st.chat_message("assistant")
-    #             message.write(
-    #                 f"Real Time Stream for {st_data['last_object_clicked_popup']}"
-    #             )
-    #             message.write_stream(yield_data)
-    #         else:
-    #             message = st.chat_message("assistant")
-    #             message.write(f"Real Time Stream for {list(MAPPER.keys())[0]}")
-    #             message.write_stream(yield_data)
-
-
-# def show_zone1_page():
-#     MAPPER = {
-#         "Aerial": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
-#         "Toll Plaza B": {"video": "https://www.youtube.com/embed/aTJVDGKHAHU"},
-#     }
-
-#     col1, col2 = st.columns([3, 1])
-
-#     with col1:
-#         with st.container(height=450):
-#             if "VIDEO_URL" in st.session_state:
-#                 playlist_id = st.session_state["VIDEO_URL"].split("/")[-1]
-#                 url_style = """
-#                     <style>
-#                     .iframe-container {
-#                         overflow: hidden;
-#                         width: 100%;
-#                         height: 430px;
-#                     }
-#                     .iframe-container iframe {
-#                         position: absolute;
-#                         top: 0;
-#                         left: 0;
-#                         width: 100%;
-#                         height: 430px;
-#                         padding-bottom: 10px;
-#                     }
-#                     </style>
-#                     """
-#                 url = f"""
-#                     <div class="iframe-container">
-#                         <iframe src="{st.session_state["VIDEO_URL"]}?rel=0&amp;&amp;controls=0&amp;showinfo=0&amp;loop=1&autoplay=1&mute=1&playlist={playlist_id}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-#                     </div>
-#                     """
-#                 url = url_style + url
-#                 st.write(
-#                     str(url),
-#                     unsafe_allow_html=True,
-#                 )
-#             else:
-#                 st.session_state["VIDEO_URL"] = list(MAPPER.values())[0]["video"]
-
-#         with st.container(height=270):
-#             m = folium.Map(
-#                 location=[23.828725716729313, 90.44034752339583], zoom_start=13
-#             )
-#             folium.Marker(
-#                 [23.828725716729313, 90.44034752339583], popup="Toll Plaza A"
-#             ).add_to(m)
-#             folium.Marker(
-#                 [23.836842165760064, 90.47714944282039], popup="Toll Plaza B"
-#             ).add_to(m)
-
-#             st_data = st_folium(m, width=1050, height=240)
-
-#     with col2:
-#         with st.container(height=735):
-#             if st_data["last_object_clicked_popup"]:
-#                 st.session_state["VIDEO_URL"] = MAPPER[
-#                     st_data["last_object_clicked_popup"]
-#                 ]["video"]
-#                 cook_breakfast()
-#                 message = st.chat_message("assistant")
-#                 message.write(
-#                     f"Real Time Stream for {st_data['last_object_clicked_popup']}"
-#                 )
-#                 message.write_stream(simulate_vehicles)
-#             else:
-#                 message = st.chat_message("assistant")
-#                 message.write(f"Real Time Stream for {list(MAPPER.keys())[0]}")
-#                 message.write_stream(simulate_vehicles)
-
+            
+            
+            if st_data["last_object_clicked_popup"]:
+                st.session_state["VIDEO_URL"] = MAPPER[
+                    st_data["last_object_clicked_popup"]
+                ]["video"]
+                cook_breakfast()
 
 if __name__ == "__main__":
     main()
