@@ -1,15 +1,17 @@
+import random
+import time
+from datetime import datetime
+
+import folium
+import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
-import folium
-from datetime import datetime
-import pandas as pd
-import time
-import random
+
 
 def main():
     # Title of the app
     st.set_page_config(
-        page_title= "Port Management Video Feed",
+        page_title="Port Management Video Feed",
         layout="wide",
         page_icon="🧊",
         initial_sidebar_state="auto",
@@ -39,7 +41,6 @@ def main():
                 "button_face": "🌞",
             },
         }
-
 
     def ChangeTheme():
         previous_theme = ms.themes["current_theme"]
@@ -86,14 +87,14 @@ def main():
 
 def show_aerial_page():
     MAPPER = {
-        "Aerial View" : {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
+        "Aerial View": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
         "Jetty 8 View": {"video": "https://www.youtube.com/embed/iXklAkaUJSk"},
         "Jetty 7 View": {"video": "https://www.youtube.com/embed/Ngrz8Jt_jQA"},
         "Jetty 6 View": {"video": "https://www.youtube.com/embed/1Z-Fnu2k9T0"},
-        "WareHouse 1" : {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
-        "WareHouse 2" : {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
+        "WareHouse 1": {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
+        "WareHouse 2": {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
     }
-    
+
     col1, col2 = st.columns([2, 1])
 
     with col1:
@@ -138,49 +139,64 @@ def show_aerial_page():
                 location=[22.4904881836411, 89.59180332769601], zoom_start=16.5
             )
             folium.Marker(
-                [22.4904881836411, 89.59180332769601], popup="Aerial View", tooltip="Aerial View"
+                [22.4904881836411, 89.59180332769601],
+                popup="Aerial View",
+                tooltip="Aerial View",
             ).add_to(m)
             folium.Marker(
-                [22.491882669402884, 89.590738638717], popup="Jetty 8 View", tooltip="Jetty 8 View"
+                [22.491882669402884, 89.590738638717],
+                popup="Jetty 8 View",
+                tooltip="Jetty 8 View",
             ).add_to(m)
             folium.Marker(
-                [22.49032603322455, 89.5909433865976], popup="Jetty 7 View", tooltip="Jetty 7 View"
+                [22.49032603322455, 89.5909433865976],
+                popup="Jetty 7 View",
+                tooltip="Jetty 7 View",
             ).add_to(m)
             folium.Marker(
-                [22.48876094551518, 89.59111541374799], popup="Jetty 6 View", tooltip="Jetty 6 View"
+                [22.48876094551518, 89.59111541374799],
+                popup="Jetty 6 View",
+                tooltip="Jetty 6 View",
             ).add_to(m)
             folium.Marker(
-                [22.4904745061418, 89.5926692724233], popup="WareHouse 1", tooltip="WareHouse 1"
+                [22.4904745061418, 89.5926692724233],
+                popup="WareHouse 1",
+                tooltip="WareHouse 1",
             ).add_to(m)
             folium.Marker(
-                [22.489058669926866, 89.59297001926369], popup="WareHouse 2", tooltip="WareHouse 2"
+                [22.489058669926866, 89.59297001926369],
+                popup="WareHouse 2",
+                tooltip="WareHouse 2",
             ).add_to(m)
             st_data = st_folium(m, width=400, height=500)
-        if st_data["last_object_clicked_tooltip"]:   
+        if st_data["last_object_clicked_tooltip"]:
             st.session_state["VIDEO_URL"] = MAPPER[
                 st_data["last_object_clicked_tooltip"]
             ]["video"]
             cook_breakfast()
-   
-#   PAGE 2   
+
+
+#   PAGE 2
 def show_zones_page():
     st.title("Zone Page")
-    
+
     # MAPPER = {
     #     "Aerial View" : {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
     #     "Jetty 8 View": {"video": "https://www.youtube.com/embed/iXklAkaUJSk"},
     #     "Jetty 7 View": {"video": "https://www.youtube.com/embed/Ngrz8Jt_jQA"},
     #     "Jetty 6 View": {"video": "https://www.youtube.com/embed/1Z-Fnu2k9T0"},
     #     "WareHouse 1" : {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
-    #     "WareHouse 2" : {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},    
+    #     "WareHouse 2" : {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
     # }
-    
+
+
 def cook_breakfast():
     msg = st.toast("Connecting...")
     time.sleep(1)
     msg.toast("Fetching video...")
     time.sleep(1)
-    msg.toast("Ready!", icon="🎉")               
+    msg.toast("Ready!", icon="🎉")
+
 
 if __name__ == "__main__":
     main()
