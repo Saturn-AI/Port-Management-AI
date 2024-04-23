@@ -69,36 +69,36 @@ def main():
         ms.themes["refreshed"] = True
         st.rerun()
 
-    #st._config.set_option("layout", "wide")
+    st._config.set_option("layout", "wide")
 
     # Sidebar menu
     st.sidebar.image("logo.png", caption="Graaho Technologies", width=150)
     st.sidebar.title("Port Video Feed")
-    menu_choice = st.sidebar.radio("Zones", ("Aerial", "Cam List",))
+    menu_choice = st.sidebar.radio("Cam List", ("Zones",))
 
     st.button(btn_face, on_click=ChangeTheme)
     st.write(datetime(2024, 4, 10, 10, 30))
 
-    if menu_choice == "Aerial":
+    if menu_choice == "Zones":
         show_aerial_page()
-    elif menu_choice == "Zone":
-        show_aerial_page()
+    # elif menu_choice == "Zones":
+    #     show_zones_page()
 
 
 def show_aerial_page():
     MAPPER = {
-        "Aerial View": {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
+        "Aerial View" : {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
         "Jetty 8 View": {"video": "https://www.youtube.com/embed/iXklAkaUJSk"},
         "Jetty 7 View": {"video": "https://www.youtube.com/embed/Ngrz8Jt_jQA"},
         "Jetty 6 View": {"video": "https://www.youtube.com/embed/1Z-Fnu2k9T0"},
-        "WareHouse 1": {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
-        "WareHouse 2": {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
-        
+        "WareHouse 1" : {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
+        "WareHouse 2" : {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},
     }
     
     col1, col2 = st.columns([2, 1])
 
     with col1:
+        st.write("Video Feed")
         with st.container(height=450):
             if "VIDEO_URL" in st.session_state:
                 playlist_id = st.session_state["VIDEO_URL"].split("/")[-1]
@@ -133,6 +133,7 @@ def show_aerial_page():
                 st.session_state["VIDEO_URL"] = list(MAPPER.values())[0]["video"]
     with col2:
         # All The Markers On map
+        st.write("Zones")
         with st.container(height=550):
             m = folium.Map(
                 location=[22.4904881836411, 89.59180332769601], zoom_start=16.5
@@ -156,19 +157,31 @@ def show_aerial_page():
                 [22.489058669926866, 89.59297001926369], popup="WareHouse 2", tooltip="WareHouse 2"
             ).add_to(m)
             st_data = st_folium(m, width=400, height=500)
-            
         if st_data["last_object_clicked_tooltip"]:   
             st.session_state["VIDEO_URL"] = MAPPER[
                 st_data["last_object_clicked_tooltip"]
             ]["video"]
             cook_breakfast()
-
+   
+#   PAGE 2   
+def show_zones_page():
+    st.title("Zone Page")
+    
+    # MAPPER = {
+    #     "Aerial View" : {"video": "https://www.youtube.com/embed/70_7sgajbZg"},
+    #     "Jetty 8 View": {"video": "https://www.youtube.com/embed/iXklAkaUJSk"},
+    #     "Jetty 7 View": {"video": "https://www.youtube.com/embed/Ngrz8Jt_jQA"},
+    #     "Jetty 6 View": {"video": "https://www.youtube.com/embed/1Z-Fnu2k9T0"},
+    #     "WareHouse 1" : {"video": "https://www.youtube.com/embed/BbCJDMPOXdE"},
+    #     "WareHouse 2" : {"video": "https://www.youtube.com/embed/XSQa-hJJyYw"},    
+    # }
+    
 def cook_breakfast():
     msg = st.toast("Connecting...")
     time.sleep(1)
     msg.toast("Fetching video...")
     time.sleep(1)
-    msg.toast("Ready!", icon="🎉")
+    msg.toast("Ready!", icon="🎉")               
 
 if __name__ == "__main__":
     main()
