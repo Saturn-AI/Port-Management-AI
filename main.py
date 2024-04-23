@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit_folium import st_folium
-from streamlit_player import st_player
 import folium
 from datetime import datetime
 import pandas as pd
