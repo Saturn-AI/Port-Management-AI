@@ -7,17 +7,10 @@ import pandas as pd
 import time
 import random
 
-def cook_breakfast():
-    msg = st.toast("Connecting...")
-    time.sleep(1)
-    msg.toast("Fetching video...")
-    time.sleep(1)
-    msg.toast("Ready!", icon="🎉")
-
 def main():
     # Title of the app
     st.set_page_config(
-        page_title="Port Management Video Feed",
+        page_title= "Port Management Video Feed",
         layout="wide",
         page_icon="🧊",
         initial_sidebar_state="auto",
@@ -81,7 +74,7 @@ def main():
     # Sidebar menu
     st.sidebar.image("logo.png", caption="Graaho Technologies", width=150)
     st.sidebar.title("Port Video Feed")
-    menu_choice = st.sidebar.radio("Zones", ("Aerial", "Zones",))
+    menu_choice = st.sidebar.radio("Zones", ("Aerial", "Cam List",))
 
     st.button(btn_face, on_click=ChangeTheme)
     st.write(datetime(2024, 4, 10, 10, 30))
@@ -169,6 +162,13 @@ def show_aerial_page():
                 st_data["last_object_clicked_tooltip"]
             ]["video"]
             cook_breakfast()
+
+def cook_breakfast():
+    msg = st.toast("Connecting...")
+    time.sleep(1)
+    msg.toast("Fetching video...")
+    time.sleep(1)
+    msg.toast("Ready!", icon="🎉")
 
 if __name__ == "__main__":
     main()
