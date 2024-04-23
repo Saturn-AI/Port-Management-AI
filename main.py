@@ -2,21 +2,10 @@ import folium
 import streamlit as st
 from streamlit_folium import st_folium
 from streamlit_player import st_player
+from datetime import datetime
 import pandas as pd
 import time
 import random
-
-
-def get_congestion_color(congestion_level):
-    if congestion_level == "High":
-        return "red"
-    elif congestion_level == "Medium":
-        return "orange"
-    elif congestion_level == "Low":
-        return "green"
-    else:
-        return "blue"
-
 
 def cook_breakfast():
     msg = st.toast("Gathering informations...")
@@ -26,35 +15,35 @@ def cook_breakfast():
     msg.toast("Ready!", icon="🎉")
 
 
-# def generate_number_plate():
-#     # Define the format of the number plate
-#     letters = [chr(i) for i in range(65, 91)]  # A-Z
-#     digits = [str(i) for i in range(10)]  # 0-9
+def generate_number_plate():
+    # Define the format of the number plate
+    letters = [chr(i) for i in range(65, 91)]  # A-Z
+    digits = [str(i) for i in range(10)]  # 0-9
 
-#     # Generate the number plate
-#     number_plate = ""
-#     for _ in range(3):
-#         number_plate += random.choice(letters)
-#     number_plate += "-"
-#     for _ in range(4):
-#         number_plate += random.choice(digits)
+    # Generate the number plate
+    number_plate = ""
+    for _ in range(3):
+        number_plate += random.choice(letters)
+    number_plate += "-"
+    for _ in range(4):
+        number_plate += random.choice(digits)
 
-#     return number_plate
+    return number_plate
 
 
-# def yield_data():
-#     sample = ["PAID", "UNPAID"]
-#     i = 1
-#     for l in list(range(0, 500, 1)):
-#         yield pd.DataFrame(
-#             {
-#                 "Number Plate": [generate_number_plate()],
-#                 "Payment Status": [random.choice(sample)],
-#             },
-#             index=[f"{i}"],
-#         )
-#         i += 1
-#         time.sleep(3)
+def yield_data():
+    sample = ["PAID", "UNPAID"]
+    i = 1
+    for l in list(range(0, 500, 1)):
+        yield pd.DataFrame(
+            {
+                "Number Plate": [generate_number_plate()],
+                "Payment Status": [random.choice(sample)],
+            },
+            index=[f"{i}"],
+        )
+        i += 1
+        time.sleep(3)
 
 
 # def simulate_vehicles():
@@ -89,6 +78,7 @@ def cook_breakfast():
 
 def main():
     # Title of the app
+    # st.title("Port Management Video Feed")
     st.set_page_config(
         page_title="Port Management Video Feed",
         layout="wide",
@@ -148,24 +138,20 @@ def main():
         ms.themes["refreshed"] = True
         st.rerun()
 
-    # st._config.set_option("layout", "wide")
+    #st._config.set_option("layout", "wide")
 
     # Sidebar menu
     st.sidebar.image("logo.png", caption="Graaho Technologies", width=150)
     st.sidebar.title("Port Video Feed")
-    menu_choice = st.sidebar.radio("Services", ("Aerial", "Zone 1", "Zone 2", "Zone 3"))
+    menu_choice = st.sidebar.radio("Zones", ("Aerial", "Zones",))
 
     st.button(btn_face, on_click=ChangeTheme)
+    st.write(datetime(2024, 4, 10, 10, 30))
 
     if menu_choice == "Aerial":
         show_aerial_page()
-    elif menu_choice == "Zone 1":
-        show_zone1_page()
-    # elif menu_choice == "Zone 2":
-    #     show_congestion_page()
-    # elif menu_choice == "Zone 3":
-    #     show_congestion_page()
-
+    elif menu_choice == "Zone":
+        show_aerial_page()
 
 def show_aerial_page():
     MAPPER = {
@@ -174,7 +160,7 @@ def show_aerial_page():
     # st_player("https://www.youtube.com/embed/70_7sgajbZg")
     
 
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([2, 1])
 
     with col1:
         with st.container(height=450):
@@ -193,7 +179,7 @@ def show_aerial_page():
                         left: 0;
                         width: 100%;
                         height: 430px;
-                        padding-bottom: 10px;
+                        padding-bottom: 5px;
                     }
                     </style>
                     """
@@ -209,19 +195,46 @@ def show_aerial_page():
                 )
             else:
                 st.session_state["VIDEO_URL"] = list(MAPPER.values())[0]["video"]
+        
 
-        with st.container(height=270):
+        # with st.container(height=270):
+        #     m = folium.Map(
+        #         location=[22.4905296250758, 89.59160985318405], zoom_start=16
+        #     )
+        #     folium.Marker(
+        #         [22.4905296250758, 89.59160985318405], popup="Mongla Aerial 1"
+        #     ).add_to(m)
+        #     # folium.Marker(
+        #     #     [23.836842165760064, 90.47714944282039], popup="Toll Plaza B"
+        #     # ).add_to(m)
+
+        #     st_data = st_folium(m, width=1050, height=240)
+            
+            
+    with col2:
+        with st.container(height=550):
             m = folium.Map(
-                location=[22.4905296250758, 89.59160985318405], zoom_start=13
+                location=[22.4904881836411, 89.59180332769601], zoom_start=16.5
             )
             folium.Marker(
-                [22.4905296250758, 89.59160985318405], popup="Mongla Aerial 1"
+                [22.4904881836411, 89.59180332769601], popup="Aerial View", tooltip="Aerial View"
             ).add_to(m)
-            # folium.Marker(
-            #     [23.836842165760064, 90.47714944282039], popup="Toll Plaza B"
-            # ).add_to(m)
-
-            st_data = st_folium(m, width=1050, height=240)
+            folium.Marker(
+                [22.491882669402884, 89.590738638717], popup="Jetty 8 View", tooltip="Jetty 8 View"
+            ).add_to(m)
+            folium.Marker(
+                [22.49032603322455, 89.5909433865976], popup="Jetty 7 View", tooltip="Jetty 7 View"
+            ).add_to(m)
+            folium.Marker(
+                [22.48876094551518, 89.59111541374799], popup="Jetty 6 View", tooltip="Jetty 6 View"
+            ).add_to(m)
+            folium.Marker(
+                [22.4904745061418, 89.5926692724233], popup="WareHouse 1", tooltip="WareHouse 1"
+            ).add_to(m)
+            folium.Marker(
+                [22.489058669926866, 89.59297001926369], popup="WareHouse 2", tooltip="WareHouse 2"
+            ).add_to(m)
+            st_data = st_folium(m, width=400, height=500)
 
     # with col2:
     #     with st.container(height=735):
